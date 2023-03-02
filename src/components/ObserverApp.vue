@@ -1,12 +1,14 @@
-<template><div class="observer" v-if="isWork" /></template>
+<template>
+    <div class="observer" v-if="isWork" />
+</template>
   
 <script>
 export default {
     props: {
-        isWork:{
-        default: true
-    },
-    } 
+        isWork: {
+            default: true
+        },
+    }
     ,
     data: () => ({
         observer: null,

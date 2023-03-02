@@ -1,7 +1,9 @@
 <template>
     <div class="image-part">
-        <img @load="onImgLoad" loading="lazy" :src="require(`@/assets/${imageSrc}`)" :alt="imageAlt">
-        <loading-app :loading="!isLoaded"> </loading-app>
+        <div class="image-frame">
+            <img @load="onImgLoad" loading="lazy" :src="require(`@/assets/${imageSrc}`)" :alt="imageAlt" @error="setFallbackImageUrl">
+            <loading-app :loading="!isLoaded"> </loading-app>
+        </div>
     </div>
 </template>
 
@@ -22,6 +24,9 @@ export default {
     methods: {
         onImgLoad() {
             this.isLoaded = true
+        },
+        setFallbackImageUrl(event){
+            event.target.src = "@/assets/avatar.webp";
         }
     },
     components: {
@@ -34,21 +39,39 @@ export default {
 .image-part {
     text-align: center;
 
-    // height: 300px;
-    // display: flex;
-    // align-items: center;
-    img {
-        width: 70%;
-        transition: all 1s ease-in;
-        cursor: zoom-in;
+    
+    .image-frame {
+        width: 80%;
+        margin: 0 auto;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px;
         transform: scale(0.9);
-        opacity: 0.8;
-        // filter: brightness(50%);
-        box-shadow: rgba(199, 199, 211, 0.74) -5px 5px, rgba(199, 199, 211, 0.3) -10px 10px, rgba(199, 199, 211, 0.2) -15px 15px, rgba(199, 199, 211, 0.1) -20px 20px, rgba(199, 199, 211, 0.05) -25px 25px;
+        transition: all .4s ease-in;
+        border-radius: 10px;
 
         &:hover {
             transform: scale(1);
-            opacity: 1;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            cursor: zoom-in;
+            border-radius: 10px;
+            // filter: contrast(110%) brightness(110%);
+            -webkit-mask-image: linear-gradient(45deg, #000 25%, rgba(0, 0, 0, .2) 50%, #000 75%);
+            mask-image: linear-gradient(45deg, #000 25%, rgba(0, 0, 0, .2) 50%, #000 75%);
+            -webkit-mask-size: 800%;
+            mask-size: 800%;
+            -webkit-mask-position: 0;
+            mask-position: 0;
+
+            &:hover {
+
+                transition: mask-position 2s ease, -webkit-mask-position 2s ease;
+                -webkit-mask-position: 120%;
+                mask-position: 120%;
+                opacity: 1;
+            }
         }
     }
 }
